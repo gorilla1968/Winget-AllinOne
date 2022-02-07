@@ -1,4 +1,16 @@
-﻿function Download-GitHubRepository { 
+﻿<#
+.SYNOPSIS
+Install apps with Winget and configure Winget-AutoUpdate
+
+.DESCRIPTION
+Install apps with Winget from a list file (apps.txt).
+Install Winget-AutoUpdate to get apps daily updated
+#>
+
+
+<# FUNCTIONS #>
+
+ function Download-GitHubRepository { 
     param( 
        [Parameter()] [string] $Url,
        [Parameter()] [string] $Location
