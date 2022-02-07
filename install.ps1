@@ -39,6 +39,7 @@ function Get-WingetStatus{
     $hasAppInstaller = Get-AppXPackage -name 'Microsoft.DesktopAppInstaller' 
     if (!($hasAppInstaller)){
         Write-Host -ForegroundColor Yellow "Installing WinGet..."
+        Add-AppxPackage -Path https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx
         $releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         $releases = Invoke-RestMethod -uri "$($releases_url)"
