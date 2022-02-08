@@ -10,7 +10,7 @@ Install Winget-AutoUpdate to get apps daily updated
 
 <# FUNCTIONS #>
 
- function Download-GitHubRepository { 
+function Download-GitHubRepository { 
     param( 
        [Parameter()] [string] $Url,
        [Parameter()] [string] $Location
@@ -73,7 +73,7 @@ function Get-WingetCmd {
 
 function Get-AppList{
     if (Test-Path "$PSScriptRoot\apps.txt"){
-        $AppList = Get-Content -Path "$PSScriptRoot\apps.txt"
+        $AppList = Get-Content -Path "$PSScriptRoot\apps_to_install.txt"
         return $AppList -join ","
     }
 }
