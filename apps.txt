@@ -1,7 +1,3 @@
 7zip.7zip
 Notepad++.Notepad++
-Microsoft.Office
-Adobe.Acrobat.Reader.64-bit
-TeamViewer.TeamViewer
-Bitwarden.Bitwarden
 VideoLAN.VLC
