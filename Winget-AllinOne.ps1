@@ -78,14 +78,24 @@ function Get-AppList{
     }
 }
 
-function Get-BlackList{
-    if (Test-Path "$PSScriptRoot\apps.txt"){
-        $AppList = Get-Content -Path "$PSScriptRoot\apps.txt"
-        return $AppList -join ","
+function Get-ExcludedApps{
+    if (Test-Path "$PSScriptRoot\excluded_apps.txt"){
+        Write-Host "Installing Custom 'excluded_apps.txt' file"
+        Copy-Item -Path "$PSScriptRoot\excluded_apps.txt" -Destination "$env:ProgramData\winget-update" -Recurse -Force -ErrorAction SilentlyContinue
+    }
+    else{
+        Write-Host "Keeping default 'excluded_apps.txt' file"
     }
 }
 
+
 <# MAIN #>
+
+Write-host "###################################"
+Write-host "#                                 #"
+Write-host "#         Winget AllinOne         #"
+Write-host "#                                 #"
+Write-host "###################################`n"
 
 #Temp folder
 $Location = "$env:ProgramData\Winget"
@@ -104,15 +114,19 @@ $AppToInstall = Get-AppList
 
 #Install Winget-Autoupdate
 Write-Host 'Installing Winget-AutoUpdate...'
-Start-Process "powershell.exe" -Argument "-windowstyle minimized -executionpolicy bypass -file `"$Location\Winget-AutoUpdate-main\winget-install-and-update.ps1`" -Silent -DoNotUpdate" -Wait
+Start-Process "powershell.exe" -Argument "-executionpolicy bypass -file `"$Location\Winget-AutoUpdate-main\winget-install-and-update.ps1`" -Silent -DoNotUpdate" -Wait
 
 #Run Winget-Install
 Write-Host 'Running Winget-Install...'
 Start-Process "powershell.exe" -Argument "-executionpolicy bypass -command `"$Location\Winget-Install-main\winget-install.ps1 -AppIDs $AppToInstall`"" -Wait
+
+#Configure ExcludedApps
+Get-ExcludedApps
 
 #Run WAU
 Write-Host "Running Winget-AutoUpdate"
 Get-ScheduledTask -TaskName "Winget Update" -ErrorAction SilentlyContinue | Start-ScheduledTask -ErrorAction SilentlyContinue
 
 Remove-Item -Path $Location -Force -Recurse
-Write-Host "End."
+Write-Host "End." -ForegroundColor Cyan
+Start-Sleep 3
