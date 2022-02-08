@@ -6,6 +6,7 @@ Based on
 - https://github.com/Romanitho/Winget-AutoUpdate
 - https://github.com/Romanitho/Winget-Install
 
+[Download projet](https://github.com/Romanitho/Winget-AllinOne/archive/refs/heads/main.zip) and extract.
 
 Put the Winget Application IDs in "apps_to_install.txt" file to install them in bulk.
 
