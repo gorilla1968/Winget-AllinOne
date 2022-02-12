@@ -1,10 +1,11 @@
 ﻿<#
 .SYNOPSIS
-Install apps with Winget and configure Winget-AutoUpdate
+Install apps with Winget-Install and configure Winget-AutoUpdate
 
 .DESCRIPTION
 Install apps with Winget from a list file (apps.txt).
 Install Winget-AutoUpdate to get apps daily updated
+https://github.com/Romanitho/Winget-AllinOne
 #>
 
 
