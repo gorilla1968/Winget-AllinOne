@@ -82,7 +82,7 @@ function Get-AppList{
 function Get-ExcludedApps{
     if (Test-Path "$PSScriptRoot\excluded_apps.txt"){
         Write-Host "Installing Custom 'excluded_apps.txt' file"
-        Copy-Item -Path "$PSScriptRoot\excluded_apps.txt" -Destination "$env:ProgramData\winget-update" -Recurse -Force -ErrorAction SilentlyContinue
+        Copy-Item -Path "$PSScriptRoot\excluded_apps.txt" -Destination "$env:ProgramData\Winget-AutoUpdate" -Recurse -Force -ErrorAction SilentlyContinue
     }
     else{
         Write-Host "Keeping default 'excluded_apps.txt' file"
