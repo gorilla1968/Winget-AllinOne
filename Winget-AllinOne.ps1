@@ -126,7 +126,7 @@ Get-ExcludedApps
 
 #Run WAU
 Write-Host "Running Winget-AutoUpdate"
-Get-ScheduledTask -TaskName "Winget Update" -ErrorAction SilentlyContinue | Start-ScheduledTask -ErrorAction SilentlyContinue
+Get-ScheduledTask -TaskName "Winget-AutoUpdate" -ErrorAction SilentlyContinue | Start-ScheduledTask -ErrorAction SilentlyContinue
 
 Remove-Item -Path $Location -Force -Recurse
 Write-Host "End." -ForegroundColor Cyan
