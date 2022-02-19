@@ -48,9 +48,9 @@ function Get-WingetStatus{
         Add-AppxPackage -Path $latestRelease.browser_download_url
         Write-Host -ForegroundColor Green "WinGet successfully installed."
     }
-else {
-    Write-Host -ForegroundColor Green "WinGet is already installed."
-    }
+    else {
+        Write-Host -ForegroundColor Green "WinGet is already installed."
+        }
 }
 
 function Get-WingetCmd {
@@ -107,7 +107,7 @@ Download-GitHubRepository "https://github.com/Romanitho/Winget-AutoUpdate/archiv
 #Download Winget-Install
 Download-GitHubRepository "https://github.com/Romanitho/Winget-Install/archive/refs/heads/main.zip" $Location
 
-#Check Winget is installed, and install if not
+#Check if Winget is installed, and install if not
 Get-WingetStatus
 
 #Get App List
