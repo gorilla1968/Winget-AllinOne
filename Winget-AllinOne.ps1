@@ -50,7 +50,7 @@ function Get-WingetStatus{
     }
     else {
         Write-Host -ForegroundColor Green "WinGet is already installed."
-        }
+    }
 }
 
 function Get-WingetCmd {
