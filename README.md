@@ -10,5 +10,4 @@ All in one job based on
 - [Download projet](https://github.com/Romanitho/Winget-AllinOne/archive/refs/heads/main.zip) and extract.
 - Put the Winget Application IDs in "apps_to_install.txt" file to install them in bulk.
 - Put the Winget Application IDs in "excluded_apps.txt" file to exclude them from daily upgrade job. By defaut, if this file is not present, it will use the default one from Winget-AutoUpgrade repo.
-
-Then, run "install.bat"
+- Then, run "install.bat"
