@@ -111,7 +111,7 @@ $AppToInstall = Get-AppList
 
 #Install Winget-Autoupdate
 Write-Host 'Installing Winget-AutoUpdate...'
-Start-Process "powershell.exe" -Argument "-executionpolicy bypass -file `"$Location\Winget-AutoUpdate-main\winget-install-and-update.ps1`" -Silent -DoNotUpdate" -Wait
+Start-Process "powershell.exe" -Argument "-executionpolicy bypass -file `"$Location\Winget-AutoUpdate-main\Winget-AutoUpdate-Install.ps1`" -Silent -DoNotUpdate" -Wait
 
 #Run Winget-Install
 Write-Host 'Running Winget-Install...'
