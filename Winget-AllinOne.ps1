@@ -37,15 +37,25 @@ function Download-GitHubRepository {
 }
 
 function Get-WingetStatus{
-    $hasAppInstaller = Get-AppXPackage -name 'Microsoft.DesktopAppInstaller' 
-    if (!($hasAppInstaller)){
+    Write-Host -ForegroundColor yellow "Checking prerequisites."
+    $hasAppInstaller = Get-AppXPackage -name 'Microsoft.DesktopAppInstaller'
+    $hasWingetSource = Get-AppxPackage -Name 'Microsoft.Winget.Source'
+    if ($hasAppInstaller -and $hasWingetSource){
+        Write-Host -ForegroundColor Green "WinGet is already installed."
+    }
+    else {
+        Write-Host -ForegroundColor Red "WinGet missing."
         Write-Host -ForegroundColor Yellow "Installing WinGet..."
         Add-AppxPackage -Path https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx
         Add-AppxPackage -Path https://aka.ms/getwinget
-        Write-Host -ForegroundColor Green "WinGet successfully installed."
-    }
-    else {
-        Write-Host -ForegroundColor Green "WinGet is already installed."
+        $hasAppInstaller = Get-AppXPackage -name 'Microsoft.DesktopAppInstaller'
+        $hasWingetSource = Get-AppxPackage -Name 'Microsoft.Winget.Source'
+        if ($hasAppInstaller -and $hasWingetSource){
+            Write-Host -ForegroundColor Green "WinGet successfully installed."
+        }
+        else{
+            Write-Host -ForegroundColor Green "WinGet successfully installed."
+        }
     }
 }
 
