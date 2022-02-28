@@ -54,7 +54,7 @@ function Get-WingetStatus{
             Write-Host -ForegroundColor Green "WinGet successfully installed."
         }
         else{
-            Write-Host -ForegroundColor Green "WinGet successfully installed."
+            Write-Host -ForegroundColor Red "WinGet failed to installed."
         }
     }
 }
