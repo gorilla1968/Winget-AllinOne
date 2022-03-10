@@ -18,7 +18,7 @@ function Download-GitHubRepository {
     ) 
      
     # Force to create a zip file 
-    $ZipFile = "$location\temp.zip"
+    $ZipFile = "$Location\temp.zip"
     New-Item $ZipFile -ItemType File -Force | Out-Null
 
     # download the zip 
@@ -46,8 +46,19 @@ function Get-WingetStatus{
     else {
         Write-Host -ForegroundColor Red "WinGet missing."
         Write-Host -ForegroundColor Yellow "Installing WinGet..."
+
+        #installing dependencies
+        $UiXamlUrl = "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.0"
+        Invoke-RestMethod -Uri $UiXamlUrl -OutFile ".\Microsoft.UI.XAML.2.7.zip"
+        Expand-Archive -Path ".\Microsoft.UI.XAML.2.7.zip" -DestinationPath ".\extracted" -Force
+        Add-AppxPackage -Path ".\extracted\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx"
+        Remove-Item -Path ".\Microsoft.UI.XAML.2.7.zip" -Force
+        Remove-Item -Path ".\extracted" -Force -Recurse
         Add-AppxPackage -Path https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx
+
+        #installin Winget
         Add-AppxPackage -Path https://aka.ms/getwinget
+
         $hasAppInstaller = Get-AppXPackage -name 'Microsoft.DesktopAppInstaller'
         $hasWingetSource = Get-AppxPackage -Name 'Microsoft.Winget.Source'
         if ($hasAppInstaller -and $hasWingetSource){
