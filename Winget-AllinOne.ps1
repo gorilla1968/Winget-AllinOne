@@ -48,6 +48,7 @@ function Get-WingetStatus{
         Write-Host -ForegroundColor Yellow "Installing WinGet..."
 
         #installing dependencies
+        $ProgressPreference = 'SilentlyContinue'
         $UiXamlUrl = "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.0"
         Invoke-RestMethod -Uri $UiXamlUrl -OutFile ".\Microsoft.UI.XAML.2.7.zip"
         Expand-Archive -Path ".\Microsoft.UI.XAML.2.7.zip" -DestinationPath ".\extracted" -Force
