@@ -95,6 +95,9 @@ function Get-AppList{
         $AppList = Get-Content -Path "$PSScriptRoot\apps_to_install.txt"
         return $AppList -join ","
     }
+    else{
+        $AppList = (Invoke-WebRequest "https://raw.githubusercontent.com/Romanitho/Winget-AllinOne/main/apps_to_install.txt" -UseBasicParsing).content
+        return $AppList -join ","
 }
 
 function Get-ExcludedApps{
