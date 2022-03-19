@@ -98,6 +98,7 @@ function Get-AppList{
     else{
         $AppList = (Invoke-WebRequest "https://raw.githubusercontent.com/Romanitho/Winget-AllinOne/main/apps_to_install.txt" -UseBasicParsing).content
         return $AppList -join ","
+    }
 }
 
 function Get-ExcludedApps{
