@@ -91,14 +91,17 @@ function Get-WingetCmd {
 }
 
 function Get-AppList{
+    #Get specific list
     if (Test-Path "$PSScriptRoot\apps_to_install.txt"){
-        $AppList = Get-Content -Path "$PSScriptRoot\apps_to_install.txt"
-        return $AppList -join ","
+        $AppList = Get-Content -Path "$PSScriptRoot\apps_to_install.txt" |  Where-Object { $_ }
     }
+    #Or get default list from github
     else{
-        $AppList = (Invoke-WebRequest "https://raw.githubusercontent.com/Romanitho/Winget-AllinOne/main/apps_to_install.txt" -UseBasicParsing).content
-        return $AppList -join ","
+        Invoke-RestMethod -Uri "https://raw.githubusercontent.com/Romanitho/Winget-AllinOne/main/apps_to_install.txt" -OutFile "$PSScriptRoot\apps_to_install_temp.txt"
+        $AppList = Get-Content -Path "$PSScriptRoot\apps_to_install_temp.txt" |  Where-Object { $_ }
+        Remove-Item "$PSScriptRoot\apps_to_install_temp.txt"
     }
+    return $AppList -join ","
 }
 
 function Get-ExcludedApps{
