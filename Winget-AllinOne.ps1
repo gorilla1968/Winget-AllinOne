@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Install apps with Winget-Install and configure Winget-AutoUpdate
 
@@ -11,7 +11,7 @@ https://github.com/Romanitho/Winget-AllinOne
 
 <# FUNCTIONS #>
 
-function Download-GitHubRepository { 
+function Get-GithubRepository { 
     param( 
        [Parameter()] [string] $Url,
        [Parameter()] [string] $Location
@@ -38,26 +38,35 @@ function Download-GitHubRepository {
 
 function Get-WingetStatus{
     Write-Host -ForegroundColor yellow "Checking prerequisites."
-    $hasAppInstaller = Get-AppXPackage -name 'Microsoft.DesktopAppInstaller'
+    $hasAppInstaller = Get-AppXPackage -Name 'Microsoft.DesktopAppInstaller'
     $hasWingetSource = Get-AppxPackage -Name 'Microsoft.Winget.Source'
     if ($hasAppInstaller -and $hasWingetSource){
         Write-Host -ForegroundColor Green "WinGet is already installed."
     }
     else {
         Write-Host -ForegroundColor Red "WinGet missing."
-        Write-Host -ForegroundColor Yellow "Installing WinGet..."
+        Write-Host -ForegroundColor Yellow "Installing WinGet prerequisites..."
 
         #installing dependencies
         $ProgressPreference = 'SilentlyContinue'
-        $UiXamlUrl = "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.0"
-        Invoke-RestMethod -Uri $UiXamlUrl -OutFile ".\Microsoft.UI.XAML.2.7.zip"
-        Expand-Archive -Path ".\Microsoft.UI.XAML.2.7.zip" -DestinationPath ".\extracted" -Force
-        Add-AppxPackage -Path ".\extracted\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx"
-        Remove-Item -Path ".\Microsoft.UI.XAML.2.7.zip" -Force
-        Remove-Item -Path ".\extracted" -Force -Recurse
+        if (Get-AppxPackage -Name 'Microsoft.iUI.Xaml.2.7'){
+            Write-Host -ForegroundColor Green "Prerequisite: Microsoft.iUI.Xaml.2.7 exists"
+        }
+        else{
+            Write-Host -ForegroundColor Yellow "Prerequisite: Installing Microsoft.iUI.Xaml.2.7"
+            $UiXamlUrl = "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.0"
+            Invoke-RestMethod -Uri $UiXamlUrl -OutFile ".\Microsoft.UI.XAML.2.7.zip"
+            Expand-Archive -Path ".\Microsoft.UI.XAML.2.7.zip" -DestinationPath ".\extracted" -Force
+            Add-AppxPackage -Path ".\extracted\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx"
+            Remove-Item -Path ".\Microsoft.UI.XAML.2.7.zip" -Force
+            Remove-Item -Path ".\extracted" -Force -Recurse
+        }
+
+        Write-Host -ForegroundColor Yellow "Prerequisite: Installing Microsoft.VCLibs.x64.14.00.Desktop"
         Add-AppxPackage -Path https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx
 
         #installin Winget
+        Write-Host -ForegroundColor Yellow "Installing Winget..."
         Add-AppxPackage -Path https://aka.ms/getwinget
 
         $hasAppInstaller = Get-AppXPackage -name 'Microsoft.DesktopAppInstaller'
@@ -97,9 +106,8 @@ function Get-AppList{
     }
     #Or get default list from github
     else{
-        Invoke-RestMethod -Uri "https://raw.githubusercontent.com/Romanitho/Winget-AllinOne/main/apps_to_install.txt" -OutFile "$PSScriptRoot\apps_to_install_temp.txt"
-        $AppList = Get-Content -Path "$PSScriptRoot\apps_to_install_temp.txt" |  Where-Object { $_ }
-        Remove-Item "$PSScriptRoot\apps_to_install_temp.txt"
+        $AppList = (Invoke-WebRequest "https://raw.githubusercontent.com/Romanitho/Winget-AllinOne/main/online/default_list.txt" -UseBasicParsing).content -split "`n" | Where-Object {$_} | Out-GridView -PassThru -Title "Select apps to install"
+        return $AppList -join ","
     }
     return $AppList -join ","
 }
@@ -127,10 +135,10 @@ Write-host "###################################`n"
 $Location = "$env:ProgramData\Winget"
 
 #Download Winget-AutoUpdate
-Download-GitHubRepository "https://github.com/Romanitho/Winget-AutoUpdate/archive/refs/heads/main.zip" $Location
+Get-GithubRepository "https://github.com/Romanitho/Winget-AutoUpdate/archive/refs/heads/main.zip" $Location
 
 #Download Winget-Install
-Download-GitHubRepository "https://github.com/Romanitho/Winget-Install/archive/refs/heads/main.zip" $Location
+Get-GithubRepository "https://github.com/Romanitho/Winget-Install/archive/refs/heads/main.zip" $Location
 
 #Check if Winget is installed, and install if not
 Get-WingetStatus
