@@ -11,3 +11,16 @@ All in one job based on
 - Put the Winget Application IDs in "apps_to_install.txt" file to install them in bulk.
 - Put the Winget Application IDs in "excluded_apps.txt" file to exclude them from daily upgrade job. By defaut, if this file is not present, it will use the default one from Winget-AutoUpgrade repo.
 - Then, run "install.bat"
+
+## Run from Powershell Directly
+
+- Open Powershell as Admin
+- Run this command:
+
+`Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Romanitho/Winget-AllinOne/main/Winget-AllinOne.ps1'))`
+
+- Select Apps you want to install (Ctrl + click)
+
+![image](https://user-images.githubusercontent.com/96626929/159272707-a46884c3-46b2-4525-a3cb-3534faaccedc.png)
+
+- Click OK
