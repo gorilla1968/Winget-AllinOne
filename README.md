@@ -13,7 +13,7 @@ All in one job based on
 - Then, run "install.bat"
 
 ## Run from Powershell Directly
-
+Basically useful on fresh install :)
 - Open Powershell as Admin
 - Run this command:
 
