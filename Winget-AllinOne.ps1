@@ -106,7 +106,7 @@ function Get-AppList{
     }
     #Or get default list from github
     else{
-        $AppList = (Invoke-WebRequest "https://raw.githubusercontent.com/Romanitho/Winget-AllinOne/main/online/default_list.txt" -UseBasicParsing).content -split "`n" | Where-Object {$_} | Out-GridView -PassThru -Title "Select apps to install"
+        $AppList = (Invoke-WebRequest "https://raw.githubusercontent.com/gorilla1968/Winget-AllinOne/main/online/default_list.txt" -UseBasicParsing).content -split "`n" | Where-Object {$_} | Out-GridView -PassThru -Title "Select apps to install"
     }
     return $AppList -join ","
 }
